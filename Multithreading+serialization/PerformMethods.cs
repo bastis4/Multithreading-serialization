@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
+using static Program;
 
 namespace Multithreading_serialization
 {
@@ -12,16 +13,24 @@ namespace Multithreading_serialization
         static int _counter = 20;
         public static Semaphore sem = new Semaphore(1, 1);
         public static int lastCount = _counter;
-        public static void CountFromMillionToOne(object obj)
+        public static void CountFromMillionToOne(object para)
         {
-            CancellationToken ct = (CancellationToken)obj;
+            ThreadParams param = (ThreadParams)para;
+            CancellationToken ct = (CancellationToken)param.a;
+            IProgress<int> progress = param.b;
             while (_counter > 0 && !ct.IsCancellationRequested)
             {
                 sem.WaitOne();
                 lastCount = _counter;
 
+
                 if (ct.IsCancellationRequested || _counter < 0)
                 {
+                    var pi = 77;
+                    Console.WriteLine(pi);
+
+                    progress.Report(lastCount);
+
                     return;
                 }
 
@@ -29,6 +38,8 @@ namespace Multithreading_serialization
                 {
                     lastCount = _counter;
                     Console.WriteLine($"Счет: {_counter} , ID#: {Thread.CurrentThread.ManagedThreadId}");
+                    
+                    progress.Report(lastCount);
 
                     _counter--;
 
