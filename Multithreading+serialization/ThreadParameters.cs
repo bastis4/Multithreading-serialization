@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Multithreading_serialization
 {
-    public class ThreadParams
+    public class ThreadParameters
     {
-        public object a;
-        public Progress<int> b;
+        public object ctsToken;
+        public Progress<int> progress;
     }
 }
