@@ -4,7 +4,7 @@ using Multithreading_serialization;
 
 class Program
 {
-    public static int _counter = 100;
+    public static int _counter = 1000;
     public static readonly string _path = "CountingData.dat";
     static void Main(string[] args)
     {
@@ -14,8 +14,8 @@ class Program
             var fileData = SerializationMethods.LoadFromBinaryFile(_path);
             if(fileData.lastCount > 0)
             {
-                Console.WriteLine($"В прошлый раз ты остановился на счете {fileData.lastCount}, потоков было {fileData.threadCount} - хочешь продолжить счет?" +
-                    $"\n" +
+                Console.WriteLine($"В прошлый раз ты остановился на счете {fileData.lastCount}, " +
+                    $"потоков было {fileData.threadCount} - хочешь продолжить счет? \n" +
                     $"Если да - введи Y, если хочешь начать сначала, то введи N");
 
                 var response = "";
@@ -38,7 +38,9 @@ class Program
         var threadCountRequest = 0;
 
         while (!int.TryParse(Console.ReadLine(), out threadCountRequest) | threadCountRequest == 0)
+        {
             Console.WriteLine("Шалите, милок! Даю вам еще попытку");
+        }
 
         var countingData = ThreadManager.ManageThreads(threadCountRequest, _counter);
 

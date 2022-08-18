@@ -8,16 +8,14 @@ namespace Multithreading_serialization
 {
     public class ThreadManager
     {
+        static int _counter;
+        static int nextCount;
         static int lastCount;
-        public static int _counter;
-        static int nextCount = _counter;
-
         static Semaphore sem = new Semaphore(1, 1);
-        public static CancellationTokenSource cts = new CancellationTokenSource();
+        static CancellationTokenSource cts = new CancellationTokenSource();
+        static Progress<int> progress = new Progress<int>();
         
-        public static Progress<int> progress = new Progress<int>();
-
-        public static ThreadState[] threadWorkingStates = new[] 
+        static ThreadState[] threadWorkingStates = new[] 
         { 
             ThreadState.WaitSleepJoin, 
             ThreadState.Running, 
@@ -31,8 +29,10 @@ namespace Multithreading_serialization
             
             progress.ProgressChanged += ReportProgress;
 
-            Thread[] threads = new Thread[threadCountRequest];
+            var threads = new Thread[threadCountRequest];
+
             Console.WriteLine("Как захочешь остановиться - нажми ESC");
+            Console.WriteLine();
 
             for (int i = 0; i < threadCountRequest; i++)
             {
@@ -58,7 +58,7 @@ namespace Multithreading_serialization
             }
 
             cts.Dispose();
-            return new CountingData(threadCountRequest, lastCount) ;
+            return new CountingData(threadCountRequest, lastCount);
         }
 
         public static void CountDown(object parameters)
