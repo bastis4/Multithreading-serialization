@@ -14,9 +14,9 @@ class Program
             var fileData = SerializationMethods.LoadFromBinaryFile(_path);
             if(fileData.lastCount > 0)
             {
-                Console.WriteLine($"В прошлый раз вы остановились на счете {fileData.lastCount}, потоков было {fileData.threadCount} - хотите продолжить?" +
+                Console.WriteLine($"В прошлый раз ты остановился на счете {fileData.lastCount}, потоков было {fileData.threadCount} - хочешь продолжить счет?" +
                     $"\n" +
-                    $"Если да - введите Y, если хотите начать сначала, то введите N");
+                    $"Если да - введи Y, если хочешь начать сначала, то введи N");
 
                 var response = "";
 
@@ -33,7 +33,7 @@ class Program
             }
         }
 
-        Console.WriteLine("Сколько потоков хочешь запустить?");
+        Console.WriteLine("Во сколько потоков хочешь посчитать?");
 
         var threadCountRequest = 0;
 
