@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Multithreading_serialization
 {
-    public static class SerializationMethods
+    public static class Serialization
     {
         static BinaryFormatter binFormat = new BinaryFormatter();
         public static void SaveAsBinaryFormat(object objGraph, string fileName)

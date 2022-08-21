@@ -12,16 +12,16 @@ namespace Multithreading_serialization
     [Serializable]
     public class CountingData
     {
-        public int threadCount { get; set; }
-        public int lastCount { get; set; }
+        public int ThreadCount { get; set; }
+        public int LastCount { get; set; }
         public CountingData()
         {
 
         }
         public CountingData(int threadCount, int lastCount)
         {
-            this.threadCount = threadCount;
-            this.lastCount = lastCount;
+            ThreadCount = threadCount;
+            LastCount = lastCount;
         }
     }
 }
