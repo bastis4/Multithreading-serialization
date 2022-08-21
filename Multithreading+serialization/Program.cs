@@ -1,7 +1,6 @@
 ﻿using System;
 using Multithreading_serialization;
 
-
 class Program
 {
     public static int Counter = 20;
@@ -11,7 +10,7 @@ class Program
     {
         LoadLastData();
 
-        if(ThreadCountRequest == 0)
+        if (ThreadCountRequest == 0)
         {
             Console.WriteLine("Во сколько потоков хочешь посчитать?");
 
@@ -48,7 +47,6 @@ class Program
                 var response = "";
 
                 while ((response = Console.ReadLine().ToLower()) != "y" && response != "n")
-
                 {
                     Console.WriteLine("Шалите, милок! Даю вам еще попытку");
                 }

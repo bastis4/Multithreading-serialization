@@ -8,12 +8,12 @@ namespace Multithreading_serialization
 {
     public class ThreadPerformer
     {
-        private static int _counter;
-        private static int _nextCount;
-        private static int _lastCount;
-        private static Semaphore _sem = new Semaphore(1, 1);
-        private static CancellationTokenSource _cts = new CancellationTokenSource();
-        private static Progress<int> _progress = new Progress<int>();
+        private int _counter;
+        private int _nextCount;
+        private int _lastCount;
+        private Semaphore _sem = new Semaphore(1, 1);
+        private CancellationTokenSource _cts = new CancellationTokenSource();
+        private Progress<int> _progress = new Progress<int>();
         
         public int PerformThreads(int threadCountRequest, int counter) 
         {
@@ -58,7 +58,7 @@ namespace Multithreading_serialization
         private void CountDown(object parameters)
         {
             var threadParams = (ThreadParameters)parameters;
-            var ct = (CancellationToken)threadParams.CtsToken;
+            var ct = threadParams.CtsToken;
             IProgress<int> progress = threadParams.Progress;
 
             while (_counter >= 0 && !ct.IsCancellationRequested)
