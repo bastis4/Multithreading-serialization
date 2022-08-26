@@ -1,5 +1,6 @@
 ﻿using System;
 using Multithreading_serialization;
+using CountingEntities.Models;
 
 class Program
 {
