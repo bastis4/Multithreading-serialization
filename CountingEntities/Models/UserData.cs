@@ -11,15 +11,16 @@ namespace CountingEntities.Models
 {
     public partial class UserData
     {
+        [Key]
         public int Id { get; set; }
+
         [StringLength(50)]
         public string UserName { get; set; }
-        public int UserId { get; set; }
-        public byte[] Timestamp { get; set; }
-        //public DateTime ModifiedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public int RequestId { get; set; }
 
-        [ForeignKey(nameof(Id))]
-        public int QueryId { get; set; }
+        [ForeignKey(nameof(RequestId))]
         public virtual CountingData CountingData { get; set; }
+
     }
 }

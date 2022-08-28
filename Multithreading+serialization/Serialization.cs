@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using CountingDb.Models;
+using CountingEntities.Models;
 
 namespace Multithreading_serialization
 {
