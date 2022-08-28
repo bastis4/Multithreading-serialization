@@ -42,7 +42,6 @@ class Program
         };
 
         AddRecordToDB(countingData, userData);
-
         Console.ReadKey();
     }
     private static void LoadLastData(string user)
