@@ -11,7 +11,11 @@ class Program
     public static readonly string Path = "CountingData.dat";
     static void Main(string[] args)
     {
-        //LoadLastData();
+        //var user = Environment.UserName;
+
+        var user = "jix";
+
+        LoadLastData(user);
 
         if (ThreadCountRequest == 0)
         {
@@ -33,60 +37,41 @@ class Program
 
         var userData = new UserData()
         {
-            UserName = Environment.UserName,
-            ModifiedDate = DateTime.Now
+            UserName = user,
+            RequestDate = DateTime.Now
         };
 
         AddRecordToDB(countingData, userData);
 
-        //Serialization.SaveAsBinaryFormat(countingData, Path);
-
         Console.ReadKey();
     }
-    /*    private static void LoadLastData()
-        {
-            var fileInfo = new FileInfo(Path);
-            if (fileInfo.Exists)
-            {
-                var fileData = Serialization.LoadFromBinaryFile(Path);
-                if (fileData.LastCount > 0)
-                {
-                    Console.WriteLine($"В прошлый раз ты остановился на счете {fileData.LastCount}, " +
-                        $"потоков было {fileData.ThreadCount} - хочешь продолжить счет? \n" +
-                        $"Если да - введи Y, если хочешь начать сначала, то введи N");
-
-                    var response = "";
-
-                    while ((response = Console.ReadLine().ToLower()) != "y" && response != "n")
-                    {
-                        Console.WriteLine("Шалите, милок! Даю вам еще попытку");
-                    }
-
-                    if (response == "y")
-                    {
-                        Counter = fileData.LastCount;
-                        ThreadCountRequest = fileData.ThreadCount;
-                    }
-                }
-            }
-        }*/
-    private static void LoadLastData()
+    private static void LoadLastData(string user)
     {
         using (var context = new CountingDataEntities())
         {
-            /*try
+            var foundCountingData = context.CountingData.Find(context.UserData
+                .Where(d => d.UserName == user)
+                .OrderByDescending(u => u.RequestDate)
+                .Select(u => u.RequestId).FirstOrDefault());
+            if (foundCountingData != null && foundCountingData.LastCount > 0)
             {
-                var car = new Car()
-                { Make = "Mercedes", Color = "Grey", CarNickName = "Fancy" };
-                context.Cars.Add(car);
-                context.SaveChanges();
-                return car.CarId;
+                Console.WriteLine($"В прошлый раз ты остановился на счете {foundCountingData.LastCount}, " +
+                                  $"потоков было {foundCountingData.ThreadCount} - хочешь продолжить счет? \n" +
+                                  $"Если да - введи Y, если хочешь начать сначала, то введи N");
+
+                var response = "";
+
+                while ((response = Console.ReadLine().ToLower()) != "y" && response != "n")
+                {
+                    Console.WriteLine("Шалите, милок! Даю вам еще попытку");
+                }
+
+                if (response == "y")
+                {
+                    Counter = foundCountingData.LastCount;
+                    ThreadCountRequest = foundCountingData.ThreadCount;
+                }
             }
-            catch (Exception ex)
-            {
-                WriteLine(ex.InnerException?.Message);
-                return 0;
-            }*/
         }
     }
 

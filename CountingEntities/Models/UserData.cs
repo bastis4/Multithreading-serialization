@@ -16,7 +16,7 @@ namespace CountingEntities.Models
 
         [StringLength(50)]
         public string UserName { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public DateTime RequestDate { get; set; }
         public int RequestId { get; set; }
 
         [ForeignKey(nameof(RequestId))]
