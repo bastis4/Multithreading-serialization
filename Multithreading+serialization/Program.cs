@@ -6,14 +6,14 @@ using Multithreading_serialization;
 
 class Program
 {
-    public static int Counter = 20;
+    public static int Counter = 10;
     public static int ThreadCountRequest = 0;
     public static readonly string Path = "CountingData.dat";
     static void Main(string[] args)
     {
-        //var user = Environment.UserName;
+        var user = Environment.UserName;
 
-        var user = "jix";
+        //var user = "jix";
 
         LoadLastData(user);
 

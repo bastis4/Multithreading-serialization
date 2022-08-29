@@ -9,7 +9,6 @@ namespace Multithreading_serialization
     public class ThreadPerformer
     {
         private int _counter;
-        private int _nextCount;
         private int _lastCount;
         private Semaphore _sem = new Semaphore(1, 1);
         private CancellationTokenSource _cts = new CancellationTokenSource();
@@ -42,7 +41,7 @@ namespace Multithreading_serialization
                 t.Start(launchThreadParameters);
             }
 
-            while (_lastCount >= 0 && !_cts.IsCancellationRequested)
+            while (_counter >= 0 && !_cts.IsCancellationRequested)
             {
                 if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
                 {
@@ -60,29 +59,24 @@ namespace Multithreading_serialization
             var threadParams = (ThreadParameters)parameters;
             var ct = threadParams.CtsToken;
             IProgress<int> progress = threadParams.Progress;
-
+            
             while (_counter >= 0 && !ct.IsCancellationRequested)
             {
                 _sem.WaitOne();
 
-                _nextCount = _counter;
+                progress.Report(_counter);
 
                 if (ct.IsCancellationRequested || _counter < 0)
                 {
-                    progress.Report(_nextCount);
                     return;
                 }
                 else
                 {
-                    _nextCount = _counter;
                     Console.WriteLine($"Счет: {_counter} , ID#: {Thread.CurrentThread.ManagedThreadId}");
-
-                    progress.Report(_nextCount);
-
                     _counter--;
-
-                    Thread.Sleep(200);
+                    Thread.Sleep(170);
                 }
+
                 _sem.Release();
             }
         }
