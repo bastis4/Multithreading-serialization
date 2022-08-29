@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Multithreading_serialization
 {
-    public class ThreadPerformer
+    public class DecrementingCounter
     {
         private int _counter;
         private int _lastCount;
@@ -14,7 +14,7 @@ namespace Multithreading_serialization
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private Progress<int> _progress = new Progress<int>();
         
-        public int PerformThreads(int threadCountRequest, int counter) 
+        public int StartCountDown(int threadCountRequest, int counter) 
         {
             _counter = counter;
             

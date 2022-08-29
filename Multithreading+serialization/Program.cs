@@ -1,6 +1,7 @@
 ﻿using System;
 using CountingEntities;
 using CountingEntities.Models;
+using CountingEntities.Repos;
 using Multithreading_serialization;
 
 
@@ -27,11 +28,11 @@ class Program
             }
         }
 
-        var threadPerformer = new ThreadPerformer();
+        var threadPerformer = new DecrementingCounter();
 
         var countingData = new CountingData()
         {
-            LastCount = threadPerformer.PerformThreads(ThreadCountRequest, Counter),
+            LastCount = threadPerformer.StartCountDown(ThreadCountRequest, Counter),
             ThreadCount = ThreadCountRequest
         };
 
@@ -46,45 +47,60 @@ class Program
     }
     private static void LoadLastData(string user)
     {
-        using (var context = new CountingDataEntities())
+        var foundCountingData = new CountingData();
+
+        using (var dataRepo = new CountDownRepository<CountingData>())
+        using (var userRepo = new CountDownRepository<UserData>())
         {
-            var foundCountingData = context.CountingData.Find(context.UserData
-                .Where(d => d.UserName == user)
-                .OrderByDescending(u => u.RequestDate)
-                .Select(u => u.RequestId).FirstOrDefault());
-            if (foundCountingData != null && foundCountingData.LastCount > 0)
+            foundCountingData = dataRepo.GetData(userRepo.GetDataByParameter(user));
+        }
+
+        if (foundCountingData != null && foundCountingData.LastCount > 0)
+        {
+            Console.WriteLine($"В прошлый раз ты остановился на счете {foundCountingData.LastCount}, " +
+                              $"потоков было {foundCountingData.ThreadCount} - хочешь продолжить счет? \n" +
+                              $"Если да - введи Y, если хочешь начать сначала, то введи N");
+
+            var response = "";
+
+            while ((response = Console.ReadLine().ToLower()) != "y" && response != "n")
             {
-                Console.WriteLine($"В прошлый раз ты остановился на счете {foundCountingData.LastCount}, " +
-                                  $"потоков было {foundCountingData.ThreadCount} - хочешь продолжить счет? \n" +
-                                  $"Если да - введи Y, если хочешь начать сначала, то введи N");
+                Console.WriteLine("Шалите, милок! Даю вам еще попытку");
+            }
 
-                var response = "";
-
-                while ((response = Console.ReadLine().ToLower()) != "y" && response != "n")
-                {
-                    Console.WriteLine("Шалите, милок! Даю вам еще попытку");
-                }
-
-                if (response == "y")
-                {
-                    Counter = foundCountingData.LastCount;
-                    ThreadCountRequest = foundCountingData.ThreadCount;
-                }
+            if (response == "y")
+            {
+                Counter = foundCountingData.LastCount;
+                ThreadCountRequest = foundCountingData.ThreadCount;
             }
         }
     }
 
     private static void AddRecordToDB(CountingData countingData, UserData userData)
     {
-        using (var context = new CountingDataEntities())
-        {
-            context.CountingData.Add(countingData);
-            context.UserData.Add(userData);
-            context.SaveChanges();
-        }
-        Console.WriteLine("Данные добавлены в таблицы");
-    }
+        /*        using (var dataRepo = new CountDownRepository<CountingData>())
+                using (var userRepo = new CountDownRepository<UserData>())
+                {
+                    userRepo.AddDataRecords(userData);
+                    dataRepo.AddDataRecords(countingData);
+                }*/
 
+        using (var userRepo = new CountDownRepository<UserData>())
+        {
+            userRepo.AddDataRecords(userData);
+        }
+
+
+        using (var dataRepo = new CountDownRepository<CountingData>())
+        {
+            dataRepo.AddDataRecords(countingData);
+        }
+
+
+
+
+            Console.WriteLine("Данные добавлены в таблицы");
+    }
 }
 
 
