@@ -20,10 +20,18 @@ namespace CountingEntities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            /* modelBuilder.Entity<CountingData>()
+                 .HasMany(e => e.UserData)
+                 .WithRequired(e => e.CountingData)
+                 .HasForeignKey(e => e.RequestId)
+                 .WillCascadeOnDelete(false);*/
+
             modelBuilder.Entity<CountingData>()
+                .HasKey(e => e.Id)
                 .HasMany(e => e.UserData)
                 .WithRequired(e => e.CountingData)
                 .WillCascadeOnDelete(false);
+
         }
     }
 }

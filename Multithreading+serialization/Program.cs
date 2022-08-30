@@ -50,7 +50,7 @@ class Program
         var foundCountingData = new CountingData();
 
         using (var dataRepo = new CountDownRepository<CountingData>())
-        using (var userRepo = new CountDownRepository<UserData>())
+        using (var userRepo = new UserDataRepository())
         {
             foundCountingData = dataRepo.GetData(userRepo.GetDataByParameter(user));
         }
@@ -78,28 +78,61 @@ class Program
 
     private static void AddRecordToDB(CountingData countingData, UserData userData)
     {
-        /*        using (var dataRepo = new CountDownRepository<CountingData>())
-                using (var userRepo = new CountDownRepository<UserData>())
-                {
-                    userRepo.AddDataRecords(userData);
-                    dataRepo.AddDataRecords(countingData);
-                }*/
-
-        using (var userRepo = new CountDownRepository<UserData>())
-        {
-            userRepo.AddDataRecords(userData);
-        }
-
 
         using (var dataRepo = new CountDownRepository<CountingData>())
         {
-            dataRepo.AddDataRecords(countingData);
+            using (var userRepo = new UserDataRepository())
+            {
+                dataRepo.AddDataRecords(countingData);
+                dataRepo.Save();
+
+                userRepo.AddDataRecords(userData);
+                userRepo.Save();
+            }
         }
+        
+
+            
+
+        /* using (var dataRepo = new CountDownRepository<CountingData>())
+
+         {
+             dataRepo.AddDataRecords(countingData);
+             using (var userRepo = new CountDownRepository<UserData>())
+             {
+                 userRepo.AddDataRecords(userData);
+             }
+         }*/
+
+        /*        using (var ent = new CountingDataEntities())
+                {
+                    var dataRepo = new CountDownRepository<CountingData>();
+                    var userRepo = new CountDownRepository<UserData>();
+                    userRepo.AddDataRecords(userData);
+                    ent.SaveChanges();
+                    dataRepo.AddDataRecords(countingData);
+                    ent.SaveChangesAsync().Wait();
+                }*/
+
+        /*        using (var userRepo = new CountDownRepository<UserData>())
+                {
+                    userRepo.AddDataRecords(userData);
+                }
+
+                using (var dataRepo = new CountDownRepository<CountingData>())
+                {
+                    dataRepo.AddDataRecords(countingData);
+                }*/
 
 
 
 
-            Console.WriteLine("Данные добавлены в таблицы");
+
+
+
+
+
+        Console.WriteLine("Данные добавлены в таблицы");
     }
 }
 

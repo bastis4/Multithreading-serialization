@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace CountingEntities.Repos
 {
-    public interface IRepository<T>
+    public class RepoController
     {
-        T GetData(int parameter);
-        void AddDataRecords(T entity);
-        //void Save();
     }
 }
