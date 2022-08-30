@@ -1,29 +1,40 @@
 ﻿using CountingEntities.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CountingEntities.Repos
 {
-    public class CounterRepo : IRepository<CountingData>
+    public class CounterRepo<T> : IDisposable, IRepo<T> where T : class
     {
-        private CountingDataEntities _db;
+        private DbSet<T> _table;
+        private CounterSessionContext _db;
 
-        public CounterRepo(CountingDataEntities db)
+        protected CounterSessionContext Context => _db;
+
+        public CounterRepo()
         {
-            _db = db;
+            _db = new CounterSessionContext();
+            _table = _db.Set<T>();
         }
 
-        public void AddDataRecords(CountingData entity)
+        public void AddRecord(T entity)
         {
-            _db.CountingData.Add(entity);
+            _table.Add(entity);
+            _db.SaveChanges();
         }
 
-        public CountingData GetData(int parameter)
+        public T GetData(int parameter)
         {
-            return _db.CountingData.Find(parameter);
+            return _table.Find(parameter);
+        }
+
+        public void Dispose()
+        {
+            _db?.Dispose();
         }
     }
 }

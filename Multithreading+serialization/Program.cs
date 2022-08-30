@@ -28,37 +28,38 @@ class Program
             }
         }
 
-        var threadPerformer = new DecrementingCounter();
+        var threadPerformer = new DownCounter();
 
-        var countingData = new CountingData()
+        var countingPoints = new CounterPoint()
         {
             LastCount = threadPerformer.StartCountDown(ThreadCountRequest, Counter),
             ThreadCount = ThreadCountRequest
         };
 
-        var userData = new UserData()
+        var session = new Session()
         {
             UserName = user,
-            RequestDate = DateTime.Now
+            RequestDate = DateTime.Now,
+            CounterPoint = countingPoints
         };
 
-        AddRecordToDB(countingData, userData);
+        AddCounterSessionRecord(session);
         Console.ReadKey();
     }
     private static void LoadLastData(string user)
     {
-        var foundCountingData = new CountingData();
+        var foundCounterPoints = new CounterPoint();
 
-        using (var dataRepo = new CountDownRepository<CountingData>())
-        using (var userRepo = new UserDataRepository())
+        using (var dataRepo = new CounterRepo<CounterPoint>())
+        using (var userRepo = new SessionRepo())
         {
-            foundCountingData = dataRepo.GetData(userRepo.GetDataByParameter(user));
+            foundCounterPoints = dataRepo.GetData(userRepo.GetSessionByParameter(user));
         }
 
-        if (foundCountingData != null && foundCountingData.LastCount > 0)
+        if (foundCounterPoints != null && foundCounterPoints.LastCount > 0)
         {
-            Console.WriteLine($"В прошлый раз ты остановился на счете {foundCountingData.LastCount}, " +
-                              $"потоков было {foundCountingData.ThreadCount} - хочешь продолжить счет? \n" +
+            Console.WriteLine($"В прошлый раз ты остановился на счете {foundCounterPoints.LastCount}, " +
+                              $"потоков было {foundCounterPoints.ThreadCount} - хочешь продолжить счет? \n" +
                               $"Если да - введи Y, если хочешь начать сначала, то введи N");
 
             var response = "";
@@ -70,69 +71,19 @@ class Program
 
             if (response == "y")
             {
-                Counter = foundCountingData.LastCount;
-                ThreadCountRequest = foundCountingData.ThreadCount;
+                Counter = foundCounterPoints.LastCount;
+                ThreadCountRequest = foundCounterPoints.ThreadCount;
             }
         }
     }
 
-    private static void AddRecordToDB(CountingData countingData, UserData userData)
+    private static void AddCounterSessionRecord(Session session)
     {
-
-        using (var dataRepo = new CountDownRepository<CountingData>())
+        using (var sessionRepo = new SessionRepo())
         {
-            using (var userRepo = new UserDataRepository())
-            {
-                dataRepo.AddDataRecords(countingData);
-                dataRepo.Save();
-
-                userRepo.AddDataRecords(userData);
-                userRepo.Save();
-            }
+            sessionRepo.AddRecord(session);
         }
-        
-
-            
-
-        /* using (var dataRepo = new CountDownRepository<CountingData>())
-
-         {
-             dataRepo.AddDataRecords(countingData);
-             using (var userRepo = new CountDownRepository<UserData>())
-             {
-                 userRepo.AddDataRecords(userData);
-             }
-         }*/
-
-        /*        using (var ent = new CountingDataEntities())
-                {
-                    var dataRepo = new CountDownRepository<CountingData>();
-                    var userRepo = new CountDownRepository<UserData>();
-                    userRepo.AddDataRecords(userData);
-                    ent.SaveChanges();
-                    dataRepo.AddDataRecords(countingData);
-                    ent.SaveChangesAsync().Wait();
-                }*/
-
-        /*        using (var userRepo = new CountDownRepository<UserData>())
-                {
-                    userRepo.AddDataRecords(userData);
-                }
-
-                using (var dataRepo = new CountDownRepository<CountingData>())
-                {
-                    dataRepo.AddDataRecords(countingData);
-                }*/
-
-
-
-
-
-
-
-
-
-        Console.WriteLine("Данные добавлены в таблицы");
+        Console.WriteLine("Архиварус все помнит");
     }
 }
 
