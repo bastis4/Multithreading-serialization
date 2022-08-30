@@ -8,6 +8,7 @@ namespace Multithreading_serialization
 {
     public class ThreadParameters
     {
+       //1
         public CancellationToken CtsToken { get; set; }
         public Progress<int> Progress { get; set; }
     }
