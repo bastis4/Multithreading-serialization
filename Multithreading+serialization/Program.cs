@@ -3,8 +3,6 @@ using CountingEntities;
 using CountingEntities.Models;
 using CountingEntities.Repos;
 using Multithreading_serialization;
-
-
 class Program
 {
     public static int Counter = 10;
