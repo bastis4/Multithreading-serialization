@@ -14,7 +14,7 @@ namespace CountingEntities
         {
         }
 
-        public virtual DbSet<CountingData> CountingData { get; set; }
+        public virtual DbSet<CounterItem> CountingData { get; set; }
         //public virtual ICollection<CountingData> Values { get; set; }
         public virtual DbSet<UserData> UserData { get; set; }
 
@@ -26,7 +26,7 @@ namespace CountingEntities
                  .HasForeignKey(e => e.RequestId)
                  .WillCascadeOnDelete(false);*/
 
-            modelBuilder.Entity<CountingData>()
+            modelBuilder.Entity<CounterItem>()
                 .HasKey(e => e.Id)
                 .HasMany(e => e.UserData)
                 .WithRequired(e => e.CountingData)
