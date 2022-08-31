@@ -10,19 +10,19 @@ namespace CountingEntities
     public partial class CounterSessionContext : DbContext
     {
         public CounterSessionContext()
-            : base("name=CountDownConnect")
+            : base("name=CountDownDBConnect")
         {
         }
 
-        public virtual DbSet<CounterPoint> CounterPoint { get; set; }
+        public virtual DbSet<CounterItem> CounterItem { get; set; }
         public virtual DbSet<Session> Session { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CounterPoint>()
+            modelBuilder.Entity<CounterItem>()
                 .HasKey(e => e.Id)
                 .HasMany(e => e.Session)
-                .WithRequired(e => e.CounterPoint)
+                .WithRequired(e => e.CounterItem)
                 .WillCascadeOnDelete(false);
         }
     }

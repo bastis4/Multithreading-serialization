@@ -58,14 +58,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CountingDataEntities.cs" />
-    <Compile Include="Models\CountingData.cs" />
-    <Compile Include="Models\UserData.cs" />
+    <Compile Include="Repos\IRepo.cs" />
+    <Compile Include="Models\CounterItem.cs" />
+    <Compile Include="CounterSessionContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repos\CountDownRepository.cs" />
     <Compile Include="Repos\CounterRepo.cs" />
-    <Compile Include="Repos\IRepository.cs" />
-    <Compile Include="Repos\UserDataRepository.cs" />
+    <Compile Include="Models\Session.cs" />
+    <Compile Include="Repos\SessionRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

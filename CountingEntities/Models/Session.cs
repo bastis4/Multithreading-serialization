@@ -20,7 +20,7 @@ namespace CountingEntities.Models
         public int RequestId { get; set; }
 
         [ForeignKey(nameof(RequestId))]
-        public virtual CounterPoint CounterPoint { get; set; }
+        public virtual CounterItem CounterItem { get; set; }
 
     }
 }

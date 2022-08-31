@@ -30,7 +30,7 @@ class Program
 
         var threadPerformer = new DownCounter();
 
-        var countingPoints = new CounterPoint()
+        var countingPoints = new CounterItem()
         {
             LastCount = threadPerformer.StartCountDown(ThreadCountRequest, Counter),
             ThreadCount = ThreadCountRequest
@@ -40,7 +40,7 @@ class Program
         {
             UserName = user,
             RequestDate = DateTime.Now,
-            CounterPoint = countingPoints
+            CounterItem = countingPoints
         };
 
         AddCounterSessionRecord(session);
@@ -48,9 +48,9 @@ class Program
     }
     private static void LoadLastData(string user)
     {
-        var foundCounterPoints = new CounterPoint();
+        var foundCounterPoints = new CounterItem();
 
-        using (var dataRepo = new CounterRepo<CounterPoint>())
+        using (var dataRepo = new CounterRepo<CounterItem>())
         using (var userRepo = new SessionRepo())
         {
             foundCounterPoints = dataRepo.GetData(userRepo.GetSessionByParameter(user));
