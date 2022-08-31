@@ -65,10 +65,7 @@
     <Compile Include="Repos\CountDownRepository.cs" />
     <Compile Include="Repos\CounterRepo.cs" />
     <Compile Include="Repos\IRepository.cs" />
-    <Compile Include="Repos\RepoController.cs" />
-    <Compile Include="Repos\UnitOfWork.cs" />
     <Compile Include="Repos\UserDataRepository.cs" />
-    <Compile Include="Repos\UserRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

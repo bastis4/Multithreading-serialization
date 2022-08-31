@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multithreading+serialization", "Multithreading+serialization\Multithreading+serialization.csproj", "{E111B71B-496C-4FA5-B7B9-C03D7E935FD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountingEntities", "CountingEntities\CountingEntities.csproj", "{039C43CF-9039-44CF-86BB-AFC857C54D55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBModelsRepos", "CountingEntities\DBModelsRepos.csproj", "{039C43CF-9039-44CF-86BB-AFC857C54D55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
