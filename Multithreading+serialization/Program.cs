@@ -81,7 +81,7 @@ class Program
         {
             sessionRepo.AddRecord(session);
         }
-        Console.WriteLine("Архиварус все помнит");
+        Console.WriteLine("Архивариус все помнит");
     }
 }
 

@@ -68,6 +68,7 @@ namespace Multithreading_serialization
 
                 if (ct.IsCancellationRequested || _counter < 0)
                 {
+                    _sem.Release();
                     return;
                 }
                 else
@@ -79,6 +80,7 @@ namespace Multithreading_serialization
 
                 _sem.Release();
             }
+        
         }
     }
 }
